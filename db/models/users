@@ -1,0 +1,49 @@
+"use strict";
+
+const path = require("path");
+const sequelize = module.db; //Imports connection settings from app.js
+let User = {};
+
+User = sequelize.define(
+  "user",
+  {
+    email: {
+      type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: "This email is already used. Please choose another one."
+      },
+      isEmail: true,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        min: {
+          args: [8],
+          msg: "Password must be 8 characters or more."
+        }
+      },
+      set: function(password) {
+        if (typeof password === "undefined" || password.length < 8) {
+          return this.setDataValue("password", "0");
+        }
+        this.setDataValue("password", bcrypt.hashSync(password));
+      }
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: "/img/user.png"
+    },
+    role: {
+      type: DataTypes.ENUM("member", "admin"),
+      allowNull: false
+    }
+  },
+  {
+    instanceMethods: instanceMethods,
+    classMethods: classMethods
+  }
+);

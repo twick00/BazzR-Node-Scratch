@@ -1,0 +1,14 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+# IntelliJ project files
+.idea
+*.iml
+!codeStyles
+!watcherTasks.xml
+out
+gen
+
+# Environment project files
+.env
+node_modules
+package-lock.json
